@@ -16,9 +16,11 @@ const Navbar = () => {
         <div className="flex flex-row gap-8 ">
           <span className="relative flex items-center">
             <Link2Icon className="absolute ml-3 pointer-events-none" />
-            <Button variant="secondary" className="pl-8">
-              Links
-            </Button>
+            <Link href={"/links"}>
+              <Button variant="secondary" className="pl-8">
+                Links
+              </Button>
+            </Link>
           </span>
 
           <span className="relative flex items-center">
@@ -33,9 +35,11 @@ const Navbar = () => {
 
         <span className="relative flex items-center">
           <EyeOpenIcon className="absolute ml-3 pointer-events-none" />
-          <Button variant="outline" className="border-primary pl-8">
-            Preview
-          </Button>
+          <Link href={"/preview"}>
+            <Button variant="outline" className="border-primary pl-8">
+              Preview
+            </Button>
+          </Link>
         </span>
       </div>
     </div>
