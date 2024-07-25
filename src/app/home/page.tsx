@@ -1,10 +1,10 @@
 
-const page = () => {
+const Profile = () => {
   return (
     <div>
-      
+      Profile page
     </div>
   )
 }
 
-export default page
+export default Profile
