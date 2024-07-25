@@ -42,7 +42,7 @@ const page = () => {
         </div>
         <Button className="w-5/6 bg-primary">Login</Button>
         <p>
-          Don't have an account?{" "}
+          Dont have an account?
           <Link href="/signup" className="text-primary">
             Create account
           </Link>
