@@ -4,55 +4,64 @@ import { Button } from "@/components/ui/button";
 import Logo from "@/app/_layouts";
 import { Link2Icon, AvatarIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { useState } from "react";
-// import Link from "next/link";
-
-type Toggle = "links" | "profile" | "preview";
+import { useToggle } from "@/context/ToggleContext";
 
 const Navbar = () => {
-  const [toggle, setToggle] = useState<Toggle>("links");
+  const { isToggled, toggle, setIsToggled } = useToggle();
 
   const handleToggle = () => {
-    if (toggle === "links") {
-      setToggle("profile");
-    } else if (toggle === "profile") {
-      setToggle("links");
+    if (isToggled === false) {
+      setIsToggled(true);
+    } else {
+      setIsToggled(false);
     }
-  }
+  };
 
   return (
     <div className="flex justify-center items-center w-full p-8">
-      <div className="flex items-center justify-between rounded-lg gap-8 bottom-4 bg-secondary w-full p-8">
+      <div className="flex items-center justify-between rounded-xl gap-8 bottom-4 bg-secondary w-full p-9">
         <div className="flex items-center gap-2">
           <Logo />
-          <h3 className="inline text-3xl font-bold">devlinks</h3>
+          <h3 className="hidden md:block text-3xl font-bold">devlinks</h3>
         </div>
 
         <div className="flex flex-row gap-8 ">
-          <span className="relative flex items-center">
-            <Link2Icon className="absolute ml-3 pointer-events-none" />
+          <span
+            onClick={handleToggle}
+            className={`relative flex items-center ${
+              isToggled ? "text-black" : "text-primary"
+            }`}
+          >
+            <Link2Icon className="absolute ml-3" />
             <Button
-              variant="secondary"
-              className="pl-8 hidden md:block"
-              onClick={handleToggle}
+              variant={isToggled ? "link" : "secondary"}
+              className={`pl-8 hidden md:block ${
+                isToggled ? "text-black" : "text-primary"
+              }`}
             >
               Links
             </Button>
           </span>
 
-          <span className="relative flex items-center">
-            <AvatarIcon className="absolute ml-3 pointer-events-none" />
+          <span
+            onClick={handleToggle}
+            className={`relative flex items-center ${
+              isToggled ? "text-primary" : "text-black"
+            }`}
+          >
+            <AvatarIcon className="absolute ml-3" />
             <Button
-              variant="link"
-              className="pl-8 hidden md:block"
-              onClick={handleToggle}
+              variant={isToggled ? "secondary" : "link"}
+              className={`pl-8 hidden md:block ${
+                isToggled ? "text-primary" : "text-black"
+              }`}
             >
               Profile Details
             </Button>
           </span>
         </div>
 
-        <span className="relative flex items-center">
+        <span className="relative flex items-center text-primary">
           <EyeOpenIcon className="absolute ml-3 pointer-events-none" />
           <Link href={"/preview"}>
             <Button

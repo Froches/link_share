@@ -1,12 +1,13 @@
+"use client";
+
 import { createContext, useContext, useState, ReactNode } from "react";
 
-// Define the shape of the context
 interface ToggleContextType {
   isToggled: boolean;
   toggle: () => void;
+  setIsToggled: (value: boolean) => void;
 }
 
-// Create the context with default values
 const ToggleContext = createContext<ToggleContextType | undefined>(undefined);
 
 // Create the provider component's props interface
@@ -23,7 +24,7 @@ export const ToggleProvider = ({ children }: ToggleProviderProps) => {
   };
 
   return (
-    <ToggleContext.Provider value={{ isToggled, toggle }}>
+    <ToggleContext.Provider value={{ isToggled, toggle, setIsToggled }}>
       {children}
     </ToggleContext.Provider>
   );

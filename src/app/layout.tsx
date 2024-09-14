@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ToggleProvider } from "@/context/ToggleContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="bg-background">{children}</main>
-      </body>
+      <ToggleProvider>
+        <body className={inter.className}>
+          <main className="bg-background">{children}</main>
+        </body>
+      </ToggleProvider>
     </html>
   );
 }

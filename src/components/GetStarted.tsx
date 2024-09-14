@@ -3,7 +3,10 @@ import Image from "next/image";
 
 const GetStarted = () => {
   return (
-    <div className="flex flex-col px-14 md:px-28 py-14 items-center justify-center gap-8">
+    <div
+      className="flex flex-col px-14 md:px-28 py-14 items-center justify-center gap-8"
+      data-aos="fade"
+    >
       <Image src={getStarted} alt="get started" />
       <div className="flex flex-col items-center justify-center">
         <h3 className="font-bold text-xl md:text-3xl">Let's get you started</h3>

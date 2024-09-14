@@ -59,8 +59,8 @@ const LinkScreen = () => {
   return (
     <>
       <div className="w-5/6 m-12">
-        <h2 className="text-3xl font-bold mb-2" data-aos="fade-down">Customize your links</h2>
-        <p>
+        <h2 className="text-3xl font-bold mb-2" data-aos="fade">Customize your links</h2>
+        <p className="text-gray-400">
           Add/edit/remove links below and then share all your profiles with the
           world!
         </p>
