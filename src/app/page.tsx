@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <Button onClick={() => {signOut(auth)}}>Log Out</Button>
+
       <div className="w-full h-screen grid grid-cols-2 lg:grid-cols-5 gap-8">
         <div className="hidden bg-secondary rounded-xl lg:flex items-center flex-col h-[95vh] ml-6 col-span-2">
           <DeviceScreen />
@@ -45,6 +45,13 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <Button
+        onClick={() => {
+          signOut(auth);
+        }}
+      >
+        Log Out
+      </Button>
     </>
   );
 }

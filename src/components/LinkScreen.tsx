@@ -93,7 +93,7 @@ const LinkScreen = () => {
       >
         + Add new link
       </Button>
-      <div className="flex flex-col-reverse w-full items-center justify-center gap-6 h-max">
+      <div className="flex flex-col-reverse w-full items-center justify-center gap-6 h-full overflow-scroll">
         {links.length > 0 ? (
           links.map((linkItem, index) => (
             <LinkSection
