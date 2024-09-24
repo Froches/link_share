@@ -15,7 +15,8 @@ export default function Register() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(auth);
 
   async function handleSignUp(event: FormEvent) {
     event.preventDefault();
@@ -30,10 +31,15 @@ export default function Register() {
     try {
       const res = await createUserWithEmailAndPassword(email, password);
       console.log(res);
-      sessionStorage.setItem("user", JSON.stringify(res?.user));
+
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("user", JSON.stringify(res?.user));
+      }
+
       setEmail("");
       setPassword("");
       setConfirmation("");
+
       router.push("/login");
     } catch (e) {
       setError((e as Error).message);

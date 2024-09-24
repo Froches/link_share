@@ -15,11 +15,15 @@ export default function Home() {
   const { isToggled, toggle } = useToggle();
   const [user] = useAuthState(auth);
   const router = useRouter();
-  const userSession = sessionStorage.getItem("user");
+  let userSession = null;
 
+  if (typeof window !== "undefined") {
+    userSession = sessionStorage.getItem("user");
+    userSession = JSON.parse(userSession || "null");
+  }
 
+  console.log(userSession);
   console.log(user);
-  console.log(userSession)
   if (!user && !userSession) {
     router.push("/login");
   }

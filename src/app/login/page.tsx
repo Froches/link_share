@@ -22,15 +22,21 @@ export default function Login() {
     try {
       const res = await signInWithEmailAndPassword(email, password);
       console.log(res);
-      sessionStorage.setItem('user', JSON.stringify(res?.user));
+
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("user", JSON.stringify(res?.user));
+      }
+
       setEmail("");
       setPassword("");
+
       router.push("/");
     } catch (e) {
       setError((e as Error).message);
       console.error(e);
     }
   }
+
 
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center gap-8">
