@@ -6,35 +6,39 @@ import GetStarted from "@/components/GetStarted";
 import { Button } from "./ui/button";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import {
+  FaGithub,
+  FaYoutube,
+  FaInstagram,
+  FaFacebook,
+  FaLinkedinIn,
+} from "react-icons/fa";
+import linkData from "@/../public/data/linkData.json";
 
 type Links = {
   index: number;
-  icon: string;
+  icon: any;
   name: string;
   link: string;
 };
 
+const iconMap: any = {
+  GitHub: FaGithub,
+  YouTube: FaYoutube,
+  Instagram: FaInstagram,
+  Facebook: FaFacebook,
+  LinkedIn: FaLinkedinIn,
+};
+
 const LinkScreen = () => {
-  const [links, setLinks] =  useState<Links[]>([
-    // {
-    //   index: 1,
-    //   icon: "GithubLogoIcon",
-    //   name: "Github",
-    //   link: "http",
-    // },
-    // {
-    //   index: 2,
-    //   icon: "",
-    //   name: "Youtube",
-    //   link: "https://youtube.com/Froches",
-    // },
-    // {
-    //   index: 3,
-    //   icon: "",
-    //   name: "LinkedIn",
-    //   link: "https://linkedin.com/Froches",
-    // },
-  ]);
+  const [links, setLinks] = useState<Links[]>(
+    linkData.map((item) => ({
+      ...item,
+      icon: iconMap[item.icon] || FaGithub,
+    }))
+  );
+
+  const [newLink, setNewLink] = useState({ icon: "", name: "", link: "" });
 
   useEffect(() => {
     AOS.init({
@@ -50,16 +54,33 @@ const LinkScreen = () => {
       ...prevLinks,
       {
         index: prevLinks.length + 1,
-        icon: "",
+        icon: FaGithub,
         name: "",
         link: "",
       },
     ]);
   };
+
+  const handleLinkChange = (index: number, field: string, value: string) => {
+    setLinks((prevLinks) =>
+      prevLinks.map((linkItem, i) =>
+        i === index
+          ? {
+              ...linkItem,
+              [field]: value,
+              icon:
+                field === "name" ? iconMap[value] || FaGithub : linkItem.icon,
+            }
+          : linkItem
+      )
+    );
+  };
   return (
     <>
       <div className="w-5/6 m-12">
-        <h2 className="text-3xl font-bold mb-2" data-aos="fade">Customize your links</h2>
+        <h2 className="text-3xl font-bold mb-2" data-aos="fade">
+          Customize your links
+        </h2>
         <p className="text-gray-400">
           Add/edit/remove links below and then share all your profiles with the
           world!
@@ -72,20 +93,26 @@ const LinkScreen = () => {
       >
         + Add new link
       </Button>
-      {links.length > 0 ? (
-        links.map((linkItem, index) => (
-          <LinkSection
-            key={index}
-            link={linkItem.link}
-            icon={linkItem.icon}
-            name={linkItem.name}
-          />
-        ))
-      ) : (
-        <div className="bg-background w-11/12 rounded-md">
-          <GetStarted />
-        </div>
-      )}
+      <div className="flex flex-col-reverse w-full items-center justify-center gap-6 h-max">
+        {links.length > 0 ? (
+          links.map((linkItem, index) => (
+            <LinkSection
+              key={index}
+              index={index}
+              link={linkItem.link}
+              icon={linkItem.icon}
+              name={linkItem.name}
+              onLinkChange={(field: any, value: any) =>
+                handleLinkChange(index, field, value)
+              }
+            />
+          ))
+        ) : (
+          <div className="bg-background w-11/12 rounded-md">
+            <GetStarted />
+          </div>
+        )}
+      </div>
     </>
   );
 };

@@ -61,17 +61,18 @@ const Navbar = () => {
           </span>
         </div>
 
-        <span className="relative flex items-center text-primary">
-          <EyeOpenIcon className="absolute ml-3 pointer-events-none" />
-          <Link href={"/preview"}>
+        <Link href={"/preview"}>
+          <span className="relative flex items-center text-primary">
+            <EyeOpenIcon className="absolute ml-3" />
+
             <Button
               variant="outline"
               className="border-primary pl-8 hidden md:block"
             >
               Preview
             </Button>
-          </Link>
-        </span>
+          </span>
+        </Link>
       </div>
     </div>
   );

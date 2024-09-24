@@ -3,38 +3,32 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "../../../firebase";
 import Logo from "../_layouts";
 import { EnvelopeClosedIcon, LockClosedIcon } from "@radix-ui/react-icons";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleLogin(event: FormEvent) {
     event.preventDefault();
     setError("");
 
     try {
-      const credential = await signInWithEmailAndPassword(
-        getAuth(app),
-        email,
-        password
-      );
-      const idToken = await credential.user.getIdToken();
-
-      await fetch("/api/login", {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
-
+      const res = await signInWithEmailAndPassword(email, password);
+      console.log(res);
+      sessionStorage.setItem('user', JSON.stringify(res?.user));
+      setEmail("");
+      setPassword("");
       router.push("/");
     } catch (e) {
       setError((e as Error).message);
+      console.error(e);
     }
   }
 
@@ -51,7 +45,7 @@ export default function Login() {
             <p>Add your details below to get back into the app</p>
           </div>
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleLogin}
             className="space-y-4 md:space-y-6"
             action="#"
           >

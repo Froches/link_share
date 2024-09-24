@@ -2,11 +2,11 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../../../firebase";
 import { useRouter } from "next/navigation";
 import Logo from "../_layouts";
 import { EnvelopeClosedIcon, LockClosedIcon } from "@radix-ui/react-icons";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/firebase";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -15,7 +15,9 @@ export default function Register() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  async function handleSubmit(event: FormEvent) {
+  const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
+
+  async function handleSignUp(event: FormEvent) {
     event.preventDefault();
 
     setError("");
@@ -26,10 +28,16 @@ export default function Register() {
     }
 
     try {
-      await createUserWithEmailAndPassword(getAuth(app), email, password);
+      const res = await createUserWithEmailAndPassword(email, password);
+      console.log(res);
+      sessionStorage.setItem("user", JSON.stringify(res?.user));
+      setEmail("");
+      setPassword("");
+      setConfirmation("");
       router.push("/login");
     } catch (e) {
       setError((e as Error).message);
+      console.error(e);
     }
   }
   return (
@@ -41,13 +49,11 @@ export default function Register() {
       <div className="h-fit bg-secondary flex flex-col items-center justify-center rounded-md gap-6 p-8">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <div className="w-5/6">
-            <h2 className="text-3xl font-bold mb-2">
-              Create account
-            </h2>
+            <h2 className="text-3xl font-bold mb-2">Create account</h2>
             <p>Lets get you started sharing your links!</p>
           </div>
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleSignUp}
             className="space-y-4 md:space-y-6"
             action="#"
           >

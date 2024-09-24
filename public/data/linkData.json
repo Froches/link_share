@@ -1,0 +1,20 @@
+[
+  {
+    "index": 1,
+    "icon": "FaGithub",
+    "name": "Github",
+    "link": "https://github.com/Froches"
+  },
+  {
+    "index": 2,
+    "icon": "FaYoutube",
+    "name": "Youtube",
+    "link": "https://youtube.com/Froches"
+  },
+  {
+    "index": 3,
+    "icon": "FaLinkedinIn",
+    "name": "LinkedIn",
+    "link": "https://linkedin.com/Froches"
+  }
+]

@@ -1,57 +1,36 @@
 "use client";
 
-import { getTokens } from "next-firebase-auth-edge";
-// import { cookies } from "next/headers";
-// import { notFound } from "next/navigation";
-// import { clientConfig, serverConfig } from "../../config";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { DeviceFrameset } from "react-device-frameset";
-import "react-device-frameset/styles/marvel-devices.min.css";
-import { Skeleton } from "@/components/ui/skeleton";
 import LinkScreen from "@/components/LinkScreen";
 import ProfileScreen from "@/components/ProfileScreen";
 import { useToggle } from "@/context/ToggleContext";
+import DeviceScreen from "@/components/DeviceScreen";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/firebase";
+import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
 
 export default function Home() {
   const { isToggled, toggle } = useToggle();
-  
-  // const tokens = getTokens(cookies(), {
-  //   apiKey: clientConfig.apiKey,
-  //   cookieName: serverConfig.cookieName,
-  //   cookieSignatureKeys: serverConfig.cookieSignatureKeys,
-  //   serviceAccount: serverConfig.serviceAccount,
-  // });
+  const [user] = useAuthState(auth);
+  const router = useRouter();
+  const userSession = sessionStorage.getItem("user");
 
-  // if (!tokens) {
-  //   notFound();
-  // }
+
+  console.log(user);
+  console.log(userSession)
+  if (!user && !userSession) {
+    router.push("/login");
+  }
 
   return (
     <>
       <Navbar />
+      <Button onClick={() => {signOut(auth)}}>Log Out</Button>
       <div className="w-full h-screen grid grid-cols-2 lg:grid-cols-5 gap-8">
         <div className="hidden bg-secondary rounded-xl lg:flex items-center flex-col h-[95vh] ml-6 col-span-2">
-          <div className="mt-10" data-aos="fade">
-            <DeviceFrameset
-              device="Samsung Galaxy S5"
-              height={500}
-              width={300}
-              color="white"
-            >
-              <div className="flex items-center justify-center flex-col mt-8 gap-5">
-                <Skeleton className="w-24 h-24 rounded-full bg-background" />
-                <Skeleton className="bg-background w-32 h-4 rounded-lg" />
-                <Skeleton className="bg-background w-16 h-3 rounded-lg" />
-
-                <div className="w-[80%] gap-5 flex flex-col">
-                  <Button className="w-full" variant={"secondary"}></Button>
-                  <Button className="w-full" variant={"secondary"}></Button>
-                  <Button className="w-full" variant={"secondary"}></Button>
-                </div>
-              </div>
-            </DeviceFrameset>
-          </div>
+          <DeviceScreen />
         </div>
         <div className="bg-secondary rounded-xl flex items-center flex-col col-span-3 h-5/10 h-[95vh] mx-6 lg:ml-0 gap-5">
           {isToggled ? <ProfileScreen /> : <LinkScreen />}
